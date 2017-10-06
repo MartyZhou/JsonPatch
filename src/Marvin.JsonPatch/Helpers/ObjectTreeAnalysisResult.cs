@@ -44,10 +44,10 @@ namespace Marvin.JsonPatch.Helpers
                 // the position must exist.
 
                 int numericValue = -1;
-                if(targetObject.GetType() == typeof(Dictionary<string, object>))
+                if(typeof(IDictionary).IsAssignableFrom(targetObject.GetType()))//targetObject.GetType() == typeof(Dictionary<string, object>))
                 {
-                    var targetDict = targetObject as Dictionary<string, object>;
-                    if (!targetDict.ContainsKey(propertyPathTree[i]))
+                    var targetDict = targetObject as IDictionary;
+                    if (!targetDict.Contains(propertyPathTree[i]))
                     {
                         JsonPatchProperty.Property.PropertyName = propertyPathTree[i];
                     }
@@ -83,7 +83,7 @@ namespace Marvin.JsonPatch.Helpers
                         {
                             targetObject = attemptedProperty.ValueProvider.GetValue(targetObject);
 
-                            if (targetObject.GetType() == typeof(Dictionary<string, object>))
+                            if (typeof(IDictionary).IsAssignableFrom(targetObject.GetType()))//targetObject.GetType() == typeof(Dictionary<string, object>))
                             {
                                 JsonPatchProperty = new Helpers.JsonPatchProperty(attemptedProperty, targetObject);
                             }
@@ -103,7 +103,7 @@ namespace Marvin.JsonPatch.Helpers
 
             if (leftOverPath.Count == 1)
             {
-                if (targetObject.GetType() == typeof(Dictionary<string, object>))
+                if (typeof(IDictionary).IsAssignableFrom(targetObject.GetType()))
                 {
                     var jsonContract = (JsonDictionaryContract)contractResolver
                     .ResolveContract(targetObject.GetType());

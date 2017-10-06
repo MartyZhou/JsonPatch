@@ -123,7 +123,7 @@ namespace Marvin.JsonPatch.Adapters
             var appendList = pathResult.ExecuteAtEnd;
             var positionAsInteger = pathResult.NumericEnd;
             var actualPathToProperty = pathResult.PathToProperty;
-                       
+
             var result = new ObjectTreeAnalysisResult(objectToApplyTo, actualPathToProperty, ContractResolver);
 
             if (!result.IsValidPathForAdd)
@@ -211,9 +211,9 @@ namespace Marvin.JsonPatch.Adapters
                         422);
                 }
             }
-            else if (patchProperty.Property.PropertyType == typeof(Dictionary<string, object>))
+            else if (typeof(IDictionary).IsAssignableFrom(patchProperty.Property.PropertyType))// == typeof(Dictionary<string, object>))
             {
-                var targetDict = patchProperty.Parent as Dictionary<string, object>;
+                var targetDict = patchProperty.Parent as IDictionary;
                 targetDict.Add(patchProperty.Property.PropertyName, value);
             }
             else
@@ -277,7 +277,7 @@ namespace Marvin.JsonPatch.Adapters
         /// <param name="objectApplyTo">Object to apply the operation to</param>
         public void Move(Operation<T> operation, T objectToApplyTo)
         {
-            var valueAtFromLocationResult = 
+            var valueAtFromLocationResult =
                 GetValueAtLocation(operation.from, objectToApplyTo, operation);
 
             if (valueAtFromLocationResult.HasError)
@@ -299,7 +299,7 @@ namespace Marvin.JsonPatch.Adapters
                 objectToApplyTo,
                 operation);
         }
-         
+
         /// <summary>
         /// The "remove" operation removes the value at the target location.
         ///
@@ -336,7 +336,7 @@ namespace Marvin.JsonPatch.Adapters
             var positionAsInteger = pathResult.NumericEnd;
             var actualPathToProperty = pathResult.PathToProperty;
 
-            var result = new ObjectTreeAnalysisResult(objectToApplyTo, actualPathToProperty, 
+            var result = new ObjectTreeAnalysisResult(objectToApplyTo, actualPathToProperty,
                 ContractResolver);
 
             if (!result.IsValidPathForRemove)
@@ -357,7 +357,7 @@ namespace Marvin.JsonPatch.Adapters
                 {
                     // now, get the generic type of the enumerable
                     var genericTypeOfArray = PropertyHelpers.GetEnumerableType(patchProperty.Property.PropertyType);
-                                 
+
                     if (patchProperty.Property.Readable)
                     {
                         var array = (IList)patchProperty.Property.ValueProvider
@@ -429,7 +429,7 @@ namespace Marvin.JsonPatch.Adapters
                              operationToReport,
                              string.Format("Patch failed: property at path location cannot be set: {0}.  Possible causes: the property may not have an accessible setter, or the property may be part of an anonymous object (and thus cannot be changed after initialization).", path)),
                            422);
-                }           
+                }
 
                 // set value to null, or for non-nullable value types, to its default value.
                 object value = null;
@@ -450,8 +450,8 @@ namespace Marvin.JsonPatch.Adapters
                     // conversion failed, so use reflection (somewhat slower) to 
                     // create a new default instance of the property type to set as value
                     patchProperty.Property.ValueProvider.SetValue(patchProperty.Parent,
-                        Activator.CreateInstance(patchProperty.Property.PropertyType)); 
-                            
+                        Activator.CreateInstance(patchProperty.Property.PropertyType));
+
                     return new RemovedPropertyTypeResult(patchProperty.Property.PropertyType, false);
                 }
 
@@ -461,7 +461,7 @@ namespace Marvin.JsonPatch.Adapters
                 return new RemovedPropertyTypeResult(patchProperty.Property.PropertyType, false);
             }
         }
-        
+
         /// <summary>
         /// The "test" operation tests that a value at the target location is
         /// equal to a specified value.
@@ -515,7 +515,7 @@ namespace Marvin.JsonPatch.Adapters
         {
             throw new NotImplementedException("Test is currently not implemented");
         }
-        
+
         /// <summary>
         /// The "replace" operation replaces the value at the target location
         /// with a new value.  The operation object MUST contain a "value" member
