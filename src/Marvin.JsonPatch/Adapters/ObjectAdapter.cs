@@ -9,6 +9,7 @@ using Marvin.JsonPatch.Operations;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Marvin.JsonPatch.Adapters
@@ -209,6 +210,11 @@ namespace Marvin.JsonPatch.Adapters
                           string.Format("Patch failed: provided path is invalid for array property type at location path: {0}: expected array", path)),
                         422);
                 }
+            }
+            else if (patchProperty.Property.PropertyType == typeof(Dictionary<string, object>))
+            {
+                var targetDict = patchProperty.Parent as Dictionary<string, object>;
+                targetDict.Add(patchProperty.Property.PropertyName, value);
             }
             else
             {

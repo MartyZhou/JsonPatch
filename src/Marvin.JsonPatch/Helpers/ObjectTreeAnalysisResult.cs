@@ -44,7 +44,15 @@ namespace Marvin.JsonPatch.Helpers
                 // the position must exist.
 
                 int numericValue = -1;
-                if (int.TryParse(propertyPathTree[i], out numericValue))
+                if(targetObject.GetType() == typeof(Dictionary<string, object>))
+                {
+                    var targetDict = targetObject as Dictionary<string, object>;
+                    if (!targetDict.ContainsKey(propertyPathTree[i]))
+                    {
+                        JsonPatchProperty.Property.PropertyName = propertyPathTree[i];
+                    }
+                }
+                else if (int.TryParse(propertyPathTree[i], out numericValue))
                 {
                     var element = GetElementAtFromObject(targetObject, numericValue);
                     if (element != null)
@@ -74,6 +82,11 @@ namespace Marvin.JsonPatch.Helpers
                         if (!(i == propertyPathTree.Count - 1))
                         {
                             targetObject = attemptedProperty.ValueProvider.GetValue(targetObject);
+
+                            if (targetObject.GetType() == typeof(Dictionary<string, object>))
+                            {
+                                JsonPatchProperty = new Helpers.JsonPatchProperty(attemptedProperty, targetObject);
+                            }
                         }
                     }
                     else
@@ -90,24 +103,34 @@ namespace Marvin.JsonPatch.Helpers
 
             if (leftOverPath.Count == 1)
             {
-                var jsonContract = (JsonObjectContract)contractResolver
-                    .ResolveContract(targetObject.GetType());
-
-                var attemptedProperty = jsonContract.Properties.FirstOrDefault
-                        (p => string.Equals(p.PropertyName, leftOverPath.Last()
-                            , StringComparison.OrdinalIgnoreCase));
-
-                if (attemptedProperty == null)
+                if (targetObject.GetType() == typeof(Dictionary<string, object>))
                 {
-                    IsValidPathForAdd = false;
-                    IsValidPathForRemove = false;
+                    var jsonContract = (JsonDictionaryContract)contractResolver
+                    .ResolveContract(targetObject.GetType());
+                    IsValidPathForAdd = true;
+                    IsValidPathForRemove = true;
                 }
                 else
                 {
-                    IsValidPathForAdd = true;
-                    IsValidPathForRemove = true;
-                    JsonPatchProperty = new Helpers.JsonPatchProperty(attemptedProperty, targetObject);
-                    PropertyPathInParent = leftOverPath.Last();
+                    var jsonContract = (JsonObjectContract)contractResolver
+                    .ResolveContract(targetObject.GetType());
+
+                    var attemptedProperty = jsonContract.Properties.FirstOrDefault
+                            (p => string.Equals(p.PropertyName, leftOverPath.Last()
+                                , StringComparison.OrdinalIgnoreCase));
+
+                    if (attemptedProperty == null)
+                    {
+                        IsValidPathForAdd = false;
+                        IsValidPathForRemove = false;
+                    }
+                    else
+                    {
+                        IsValidPathForAdd = true;
+                        IsValidPathForRemove = true;
+                        JsonPatchProperty = new Helpers.JsonPatchProperty(attemptedProperty, targetObject);
+                        PropertyPathInParent = leftOverPath.Last();
+                    }
                 }
             }
             else

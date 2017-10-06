@@ -114,9 +114,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-                    {
-                        StringProperty = "A"
-                    }
+                {
+                    StringProperty = "A"
+                }
             };
 
             // create patch
@@ -161,9 +161,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-            {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             };
 
 
@@ -191,15 +191,15 @@ namespace Marvin.JsonPatch.XUnitTest
                 }
             };
 
-
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
             patchDoc.Add<int>(o => o.ListOfSimpleDTO[0].IntegerList, 4, 0);
+            patchDoc.Add(o => o.DictOfSimpleDTO["testkey1"], new SimpleDTO() { StringProperty = "test" });
 
 
             var serialized = JsonConvert.SerializeObject(patchDoc);
             var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<SimpleDTOWithNestedDTO>>(serialized);
-            
+
             deserialized.ApplyTo(doc);
 
             Assert.Equal(new List<int>() { 4, 1, 2, 3 }, doc.ListOfSimpleDTO[0].IntegerList);
@@ -241,9 +241,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-            {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             }
             ;
 
@@ -287,12 +287,12 @@ namespace Marvin.JsonPatch.XUnitTest
         {
 
             var doc = new SimpleDTOWithNestedDTO()
-          {
-              SimpleDTO = new SimpleDTO()
-              {
-                  IntegerList = new List<int>() { 1, 2, 3 }
-              }
-          };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
 
             // create patch
@@ -333,12 +333,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void AddToListAppend()
         {
             var doc = new SimpleDTOWithNestedDTO()
+            {
+                SimpleDTO = new SimpleDTO()
                 {
-                    SimpleDTO = new SimpleDTO()
-                  {
-                      IntegerList = new List<int>() { 1, 2, 3 }
-                  }
-                };
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
 
             // create patch
@@ -383,12 +383,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void Remove()
         {
             var doc = new SimpleDTOWithNestedDTO()
-                  {
-                      SimpleDTO = new SimpleDTO()
-              {
-                  StringProperty = "A"
-              }
-                  };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    StringProperty = "A"
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -433,12 +433,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void RemoveFromList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-                  {
-                      SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-                  };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
 
             // create patch
@@ -479,12 +479,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void RemoveFromListInvalidPositionTooLarge()
         {
             var doc = new SimpleDTOWithNestedDTO()
-                 {
-                     SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-                 };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -523,12 +523,12 @@ namespace Marvin.JsonPatch.XUnitTest
         {
 
             var doc = new SimpleDTOWithNestedDTO()
-              {
-                  SimpleDTO = new SimpleDTO()
-         {
-             IntegerList = new List<int>() { 1, 2, 3 }
-         }
-              }
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            }
               ;
 
             // create patch
@@ -570,12 +570,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void RemoveFromEndOfList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-              {
-                  SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-              };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -624,7 +624,7 @@ namespace Marvin.JsonPatch.XUnitTest
             };
 
             // create patch
-            JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = 
+            JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc =
                 new JsonPatchDocument<SimpleDTOWithNestedDTO>();
             patchDoc.Replace<string>(o => o.SimpleDTO.StringProperty, "B");
             patchDoc.Replace(o => o.SimpleDTO.DecimalValue, 12);
@@ -673,16 +673,16 @@ namespace Marvin.JsonPatch.XUnitTest
         public void SerializationTests()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
             {
-                StringProperty = "A",
-                DecimalValue = 10,
-                DoubleValue = 10,
-                FloatValue = 10,
-                IntegerValue = 10
-            }
-             };
+                SimpleDTO = new SimpleDTO()
+                {
+                    StringProperty = "A",
+                    DecimalValue = 10,
+                    DoubleValue = 10,
+                    FloatValue = 10,
+                    IntegerValue = 10
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -713,12 +713,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void ReplaceInList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-             };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -735,12 +735,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void ReplaceInListWithSerialization()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-             };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -763,9 +763,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             };
 
             // create patch
@@ -813,9 +813,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-            {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             };
 
             // create patch
@@ -862,9 +862,9 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-            {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             };
 
             // create patch
@@ -910,12 +910,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void ReplaceAtEndOfList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-           {
-               SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-           };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -958,12 +958,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void ReplaceInListInvalidInvalidPositionTooLarge()
         {
             var doc = new SimpleDTOWithNestedDTO()
-              {
-                  SimpleDTO = new SimpleDTO()
-               {
-                   IntegerList = new List<int>() { 1, 2, 3 }
-               }
-              };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1000,12 +1000,12 @@ namespace Marvin.JsonPatch.XUnitTest
 
 
             var doc = new SimpleDTOWithNestedDTO()
-              {
-                  SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-              };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1047,13 +1047,13 @@ namespace Marvin.JsonPatch.XUnitTest
         public void Copy()
         {
             var doc = new SimpleDTOWithNestedDTO()
-               {
-                   SimpleDTO = new SimpleDTO()
-             {
-                 StringProperty = "A",
-                 AnotherStringProperty = "B"
-             }
-               };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    StringProperty = "A",
+                    AnotherStringProperty = "B"
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1096,12 +1096,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void CopyInList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-              {
-                  SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-              };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1139,12 +1139,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void CopyFromListToEndOfList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-             };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1186,12 +1186,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void CopyFromListToNonList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
             {
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-             };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1229,13 +1229,13 @@ namespace Marvin.JsonPatch.XUnitTest
         public void CopyFromNonListToList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
             {
-                IntegerValue = 5,
-                IntegerList = new List<int>() { 1, 2, 3 }
-            }
-             };
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerValue = 5,
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1278,10 +1278,10 @@ namespace Marvin.JsonPatch.XUnitTest
             var doc = new SimpleDTOWithNestedDTO()
             {
                 SimpleDTO = new SimpleDTO()
-           {
-               IntegerValue = 5,
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
+                {
+                    IntegerValue = 5,
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
             };
 
             // create patch
@@ -1327,13 +1327,13 @@ namespace Marvin.JsonPatch.XUnitTest
         public void Move()
         {
             var doc = new SimpleDTOWithNestedDTO()
-           {
-               SimpleDTO = new SimpleDTO()
-           {
-               StringProperty = "A",
-               AnotherStringProperty = "B"
-           }
-           };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    StringProperty = "A",
+                    AnotherStringProperty = "B"
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1378,12 +1378,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void MoveInList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-         {
-             SimpleDTO = new SimpleDTO()
-          {
-              IntegerList = new List<int>() { 1, 2, 3 }
-          }
-         };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1422,12 +1422,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void MoveFromListToEndOfList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-        {
-            SimpleDTO = new SimpleDTO()
-           {
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-        };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1467,12 +1467,12 @@ namespace Marvin.JsonPatch.XUnitTest
         public void MoveFomListToNonList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-           {
-               SimpleDTO = new SimpleDTO()
-               {
-                   IntegerList = new List<int>() { 1, 2, 3 }
-               }
-           };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1559,13 +1559,13 @@ namespace Marvin.JsonPatch.XUnitTest
         public void MoveFromNonListToList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-      {
-          SimpleDTO = new SimpleDTO()
-           {
-               IntegerValue = 5,
-               IntegerList = new List<int>() { 1, 2, 3 }
-           }
-      };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerValue = 5,
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
@@ -1610,13 +1610,13 @@ namespace Marvin.JsonPatch.XUnitTest
         public void MoveToEndOfList()
         {
             var doc = new SimpleDTOWithNestedDTO()
-             {
-                 SimpleDTO = new SimpleDTO()
-                   {
-                       IntegerValue = 5,
-                       IntegerList = new List<int>() { 1, 2, 3 }
-                   }
-             };
+            {
+                SimpleDTO = new SimpleDTO()
+                {
+                    IntegerValue = 5,
+                    IntegerList = new List<int>() { 1, 2, 3 }
+                }
+            };
 
             // create patch
             JsonPatchDocument<SimpleDTOWithNestedDTO> patchDoc = new JsonPatchDocument<SimpleDTOWithNestedDTO>();
