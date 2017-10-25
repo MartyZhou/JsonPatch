@@ -661,8 +661,8 @@ namespace Marvin.JsonPatch
                 }
                 catch (Exception jsonPatchException)
                 {
-                    //var errorReporter = logErrorAction ?? ErrorReporter.Default;
-                    //errorReporter(new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message));
+                    var errorReporter = logErrorAction ?? Internal.ErrorReporter.Default;
+                    errorReporter(new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message));
 
                     // As per JSON Patch spec if an operation results in error, further operations should not be executed.
                     break;
