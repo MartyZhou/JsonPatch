@@ -726,12 +726,10 @@ namespace Marvin.JsonPatch
                 path += "/" + position;
                 if (segments.Count == 0)
                 {
-                    // return path.ToLowerInvariant();
                     return "/" + path;
                 }
             }
 
-            // return "/" + path.ToLowerInvariant();
             return "/" + path;
         }
 
@@ -744,14 +742,12 @@ namespace Marvin.JsonPatch
                     var binaryExpression = (BinaryExpression)expr;
                     listOfSegments.AddRange(GetPathSegments(binaryExpression.Left));
                     listOfSegments.Add(ExpressionHelpers.CaseTransform(binaryExpression.Right.ToString(), CaseTransformType));
-                    // listOfSegments.Add(binaryExpression.Right.ToString());
                     return listOfSegments;
 
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)expr;
                     listOfSegments.AddRange(GetPathSegments(methodCallExpression.Object));
                     listOfSegments.Add(ExpressionHelpers.CaseTransform(EvaluateExpression(methodCallExpression.Arguments[0]), CaseTransformType));
-                    // listOfSegments.Add(EvaluateExpression(methodCallExpression.Arguments[0]));
                     return listOfSegments;
 
                 case ExpressionType.Convert:
@@ -763,7 +759,6 @@ namespace Marvin.JsonPatch
                     listOfSegments.AddRange(GetPathSegments(memberExpression.Expression));
                     // Get property name, respecting JsonProperty attribute
                     listOfSegments.Add(ExpressionHelpers.CaseTransform(GetPropertyNameFromMemberExpression(memberExpression), CaseTransformType));
-                    // listOfSegments.Add(GetPropertyNameFromMemberExpression(memberExpression));
                     return listOfSegments;
 
                 case ExpressionType.Parameter:
