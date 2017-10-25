@@ -224,7 +224,6 @@ namespace Marvin.JsonPatch.Internal
                 }
                 else
                 {
-                    // listTypeArgument = genericList.GetGenericArguments()[0]; //.GenericTypeArguments[0];
                     listTypeArgument = HeuristicallyDetermineType(list);
                     errorMessage = null;
                     return true;
@@ -278,6 +277,7 @@ namespace Marvin.JsonPatch.Internal
             }
         }
 
+        // Thanks to https://stackoverflow.com/questions/34211815/how-to-get-the-underlying-type-of-an-ilist-item
         private static Type HeuristicallyDetermineType(IList myList)
         {
             var enumerable_type =

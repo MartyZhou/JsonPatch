@@ -39,11 +39,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Adapters\IObjectAdapter.cs" />
-    <Compile Include="Adapters\IObjectAdapterNew.cs" />
     <Compile Include="Adapters\ObjectAdapter.cs" />
-    <Compile Include="Adapters\ObjectAdapterNew.cs" />
     <Compile Include="Converters\JsonPatchDocumentConverter.cs" />
-    <Compile Include="Converters\TypedJsonPatchDocumentNewConverter.cs" />
     <Compile Include="Converters\TypedJsonPatchDocumentConverter.cs" />
     <Compile Include="Exceptions\JsonPatchException.cs" />
     <Compile Include="Helpers\ActualPropertyPathResult.cs" />
@@ -56,26 +53,24 @@
     <Compile Include="Helpers\PropertyHelpers.cs" />
     <Compile Include="Helpers\RemovedPropertyTypeResult.cs" />
     <Compile Include="IJsonPatchDocument.cs" />
-    <Compile Include="IJsonPatchDocumentNew.cs" />
     <Compile Include="Internal\ConversionResult.cs" />
     <Compile Include="Internal\ConversionResultProvider.cs" />
     <Compile Include="Internal\DictionaryAdapterOfTU.cs" />
+    <Compile Include="Internal\ErrorReporter.cs" />
     <Compile Include="Internal\IAdapter.cs" />
     <Compile Include="Internal\ListAdapter.cs" />
     <Compile Include="Internal\ObjectVisitor.cs" />
     <Compile Include="Internal\ParsedPath.cs" />
     <Compile Include="Internal\PathHelpers.cs" />
     <Compile Include="Internal\PocoAdapter.cs" />
-    <Compile Include="JsonPatchDocumentNew.cs" />
-    <Compile Include="JsonPatchDocumentOfTNew.cs" />
+    <Compile Include="JsonPatchDocument.cs" />
+    <Compile Include="JsonPatchDocumentOfT.cs" />
     <Compile Include="JsonPatchError.cs" />
     <Compile Include="Operations\OperationBase.cs" />
-    <Compile Include="Operations\OperationNew.cs" />
+    <Compile Include="Operations\Operation.cs" />
     <Compile Include="Operations\OperationOfT.cs" />
     <Compile Include="Operations\OperationType.cs" />
-    <Compile Include="Operations\TypedOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JsonPatchDocumentOfT.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

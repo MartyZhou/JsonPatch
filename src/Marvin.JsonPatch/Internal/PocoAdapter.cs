@@ -85,7 +85,7 @@ namespace Marvin.JsonPatch.Internal
             // Setting the value to "null" will use the default value in case of value types, and
             // null in case of reference types
             object value = null;
-            if (jsonProperty.PropertyType.GetType().IsValueType
+            if (jsonProperty.PropertyType.IsValueType
                 && Nullable.GetUnderlyingType(jsonProperty.PropertyType) == null)
             {
                 value = Activator.CreateInstance(jsonProperty.PropertyType);

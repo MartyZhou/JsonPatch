@@ -11,20 +11,20 @@ using System.Collections.Generic;
 namespace Marvin.JsonPatch
 {
     [JsonConverter(typeof(JsonPatchDocumentConverter))]
-    public class JsonPatchDocumentNew : IJsonPatchDocumentNew
+    public class JsonPatchDocument : IJsonPatchDocument
     {
-        public List<OperationNew> Operations { get; private set; }
+        public List<Operation> Operations { get; private set; }
 
         [JsonIgnore]
         public IContractResolver ContractResolver { get; set; }
 
-        public JsonPatchDocumentNew()
+        public JsonPatchDocument()
         {
-            Operations = new List<OperationNew>();
+            Operations = new List<Operation>();
             ContractResolver = new DefaultContractResolver();
         }
 
-        public JsonPatchDocumentNew(List<OperationNew> operations, IContractResolver contractResolver)
+        public JsonPatchDocument(List<Operation> operations, IContractResolver contractResolver)
         {
             if (operations == null)
             {
@@ -47,14 +47,14 @@ namespace Marvin.JsonPatch
         /// <param name="path">target location</param>
         /// <param name="value">value</param>
         /// <returns></returns>
-        public JsonPatchDocumentNew Add(string path, object value)
+        public JsonPatchDocument Add(string path, object value)
         {
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            Operations.Add(new OperationNew("add", PathHelpers.NormalizePath(path), null, value));
+            Operations.Add(new Operation("add", PathHelpers.NormalizePath(path), null, value));
             return this;
         }
 
@@ -64,14 +64,14 @@ namespace Marvin.JsonPatch
         /// </summary>
         /// <param name="path">target location</param>
         /// <returns></returns>
-        public JsonPatchDocumentNew Remove(string path)
+        public JsonPatchDocument Remove(string path)
         {
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            Operations.Add(new OperationNew("remove", PathHelpers.NormalizePath(path), null, null));
+            Operations.Add(new Operation("remove", PathHelpers.NormalizePath(path), null, null));
             return this;
         }
 
@@ -82,14 +82,14 @@ namespace Marvin.JsonPatch
         /// <param name="path">target location</param>
         /// <param name="value">value</param>
         /// <returns></returns>
-        public JsonPatchDocumentNew Replace(string path, object value)
+        public JsonPatchDocument Replace(string path, object value)
         {
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            Operations.Add(new OperationNew("replace", PathHelpers.NormalizePath(path), null, value));
+            Operations.Add(new Operation("replace", PathHelpers.NormalizePath(path), null, value));
             return this;
         }
 
@@ -100,7 +100,7 @@ namespace Marvin.JsonPatch
         /// <param name="from">source location</param>
         /// <param name="path">target location</param>
         /// <returns></returns>
-        public JsonPatchDocumentNew Move(string from, string path)
+        public JsonPatchDocument Move(string from, string path)
         {
             if (from == null)
             {
@@ -112,7 +112,7 @@ namespace Marvin.JsonPatch
                 throw new ArgumentNullException(nameof(path));
             }
 
-            Operations.Add(new OperationNew("move", PathHelpers.NormalizePath(path), PathHelpers.NormalizePath(from)));
+            Operations.Add(new Operation("move", PathHelpers.NormalizePath(path), PathHelpers.NormalizePath(from)));
             return this;
         }
 
@@ -123,7 +123,7 @@ namespace Marvin.JsonPatch
         /// <param name="from">source location</param>
         /// <param name="path">target location</param>
         /// <returns></returns>
-        public JsonPatchDocumentNew Copy(string from, string path)
+        public JsonPatchDocument Copy(string from, string path)
         {
             if (from == null)
             {
@@ -135,7 +135,7 @@ namespace Marvin.JsonPatch
                 throw new ArgumentNullException(nameof(path));
             }
 
-            Operations.Add(new OperationNew("copy", PathHelpers.NormalizePath(path), PathHelpers.NormalizePath(from)));
+            Operations.Add(new Operation("copy", PathHelpers.NormalizePath(path), PathHelpers.NormalizePath(from)));
             return this;
         }
 
@@ -150,7 +150,7 @@ namespace Marvin.JsonPatch
                 throw new ArgumentNullException(nameof(objectToApplyTo));
             }
 
-            ApplyTo(objectToApplyTo, new ObjectAdapterNew(ContractResolver, logErrorAction: null));
+            ApplyTo(objectToApplyTo, new ObjectAdapter(ContractResolver, logErrorAction: null));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Marvin.JsonPatch
                 throw new ArgumentNullException(nameof(objectToApplyTo));
             }
 
-            var adapter = new ObjectAdapterNew(ContractResolver, logErrorAction);
+            var adapter = new ObjectAdapter(ContractResolver, logErrorAction);
             foreach (var op in Operations)
             {
                 try
@@ -188,7 +188,7 @@ namespace Marvin.JsonPatch
         /// </summary>
         /// <param name="objectToApplyTo">Object to apply the JsonPatchDocument to</param>
         /// <param name="adapter">IObjectAdapter instance to use when applying</param>
-        public void ApplyTo(object objectToApplyTo, IObjectAdapterNew adapter)
+        public void ApplyTo(object objectToApplyTo, IObjectAdapter adapter)
         {
             if (objectToApplyTo == null)
             {
@@ -207,15 +207,15 @@ namespace Marvin.JsonPatch
             }
         }
 
-        IList<OperationNew> IJsonPatchDocumentNew.GetOperations()
+        IList<Operation> IJsonPatchDocument.GetOperations()
         {
-            var allOps = new List<OperationNew>();
+            var allOps = new List<Operation>();
 
             if (Operations != null)
             {
                 foreach (var op in Operations)
                 {
-                    var untypedOp = new OperationNew();
+                    var untypedOp = new Operation();
 
                     untypedOp.op = op.op;
                     untypedOp.value = op.value;

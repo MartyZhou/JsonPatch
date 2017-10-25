@@ -1,18 +1,23 @@
-﻿using Marvin.JsonPatch.Adapters;
+﻿// Any comments, input: @KevinDockx
+// Any issues, requests: https://github.com/KevinDockx/JsonPatch
+//
+// Enjoy :-)
+
+using Marvin.JsonPatch.Adapters;
 using Marvin.JsonPatch.Exceptions;
 using Marvin.JsonPatch.Properties;
 using System;
 
 namespace Marvin.JsonPatch.Operations
 {
-    public class OperationNew<TModel> : OperationNew where TModel : class
+    public class Operation<TModel> : Operation where TModel : class
     {
-        public OperationNew()
+        public Operation()
         {
 
         }
 
-        public OperationNew(string op, string path, string from, object value)
+        public Operation(string op, string path, string from, object value)
             : base(op, path, from)
         {
             if (op == null)
@@ -28,7 +33,7 @@ namespace Marvin.JsonPatch.Operations
             this.value = value;
         }
 
-        public OperationNew(string op, string path, string from)
+        public Operation(string op, string path, string from)
             : base(op, path, from)
         {
             if (op == null)
@@ -42,7 +47,7 @@ namespace Marvin.JsonPatch.Operations
 
         }
 
-        public void Apply(TModel objectToApplyTo, IObjectAdapterNew adapter)
+        public void Apply(TModel objectToApplyTo, IObjectAdapter adapter)
         {
             if (objectToApplyTo == null)
             {

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json.Serialization;
 
 namespace Marvin.JsonPatch.Internal
 {
@@ -58,10 +56,6 @@ namespace Marvin.JsonPatch.Internal
                 var type = typeof(DictionaryAdapter<,>).MakeGenericType(jsonDictionaryContract.DictionaryKeyType, jsonDictionaryContract.DictionaryValueType);
                 return (IAdapter)Activator.CreateInstance(type);
             }
-            //else if (jsonContract is JsonDynamicContract)
-            //{
-            //    return new DynamicObjectAdapter();
-            //}
             else
             {
                 return new PocoAdapter();

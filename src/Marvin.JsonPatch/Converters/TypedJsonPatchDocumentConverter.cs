@@ -52,7 +52,7 @@ namespace Marvin.JsonPatch.Converters
                 serializer.Populate(jObjectReader, targetOperations);
 
                 // container target: the typed JsonPatchDocument. 
-                var container = Activator.CreateInstance(objectType, targetOperations);  
+                var container = Activator.CreateInstance(objectType, targetOperations, new DefaultContractResolver());
 
                 return container;
             }
@@ -60,10 +60,10 @@ namespace Marvin.JsonPatch.Converters
             {
                 throw new JsonPatchException(
                     new JsonPatchError(null, null, "The JsonPatchDocument was malformed and could not be parsed."), ex, 400);
-            }             
+            }
         }
 
-        public override void WriteJson(JsonWriter writer, object value, 
+        public override void WriteJson(JsonWriter writer, object value,
             JsonSerializer serializer)
         {
             if (value is IJsonPatchDocument)

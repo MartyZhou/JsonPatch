@@ -1,4 +1,9 @@
-﻿using Marvin.JsonPatch.Exceptions;
+﻿// Any comments, input: @KevinDockx
+// Any issues, requests: https://github.com/KevinDockx/JsonPatch
+//
+// Enjoy :-)
+
+using Marvin.JsonPatch.Exceptions;
 using Marvin.JsonPatch.Operations;
 using Marvin.JsonPatch.Properties;
 using Newtonsoft.Json;
@@ -6,8 +11,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Marvin.JsonPatch.Converters
 {
@@ -21,7 +24,7 @@ namespace Marvin.JsonPatch.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            if (objectType != typeof(JsonPatchDocumentNew))
+            if (objectType != typeof(JsonPatchDocument))
             {
                 throw new ArgumentException(Resources.FormatParameterMustMatchType("objectType", "JsonPatchDocumentNew"), "objectType");
             }
@@ -37,7 +40,7 @@ namespace Marvin.JsonPatch.Converters
                 var jObject = JArray.Load(reader);
 
                 // Create target object for Json => list of operations
-                var targetOperations = new List<OperationNew>();
+                var targetOperations = new List<Operation>();
 
                 // Create a new reader for this jObject, and set all properties 
                 // to match the original reader.
@@ -51,7 +54,7 @@ namespace Marvin.JsonPatch.Converters
                 serializer.Populate(jObjectReader, targetOperations);
 
                 // container target: the JsonPatchDocument. 
-                var container = new JsonPatchDocumentNew(targetOperations, new DefaultContractResolver());
+                var container = new JsonPatchDocument(targetOperations, new DefaultContractResolver());
 
                 return container;
             }
@@ -63,9 +66,9 @@ namespace Marvin.JsonPatch.Converters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is IJsonPatchDocumentNew)
+            if (value is IJsonPatchDocument)
             {
-                var jsonPatchDoc = (IJsonPatchDocumentNew)value;
+                var jsonPatchDoc = (IJsonPatchDocument)value;
                 var lst = jsonPatchDoc.GetOperations();
 
                 // write out the operations, no envelope

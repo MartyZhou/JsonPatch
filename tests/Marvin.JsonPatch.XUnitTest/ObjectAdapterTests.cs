@@ -1,12 +1,8 @@
-﻿using Marvin.JsonPatch.Converters;
-using Marvin.JsonPatch.Exceptions;
+﻿using Marvin.JsonPatch.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Marvin.JsonPatch.XUnitTest
@@ -28,8 +24,6 @@ namespace Marvin.JsonPatch.XUnitTest
             patchDoc.Add<string>(o => o.StringProperty, "B");
 
             patchDoc.ApplyTo(doc);
-
-            var s = new Operations.Operation();
 
             Assert.Equal("B", doc.StringProperty);
 
@@ -1721,7 +1715,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class6();
             model.DictionaryOfStringToInteger["one"] = 1;
             model.DictionaryOfStringToInteger["two"] = 2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Add("/DictionaryOfStringToInteger/three", 3);
 
             // Act
@@ -1741,7 +1735,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class6();
             model.DictionaryOfStringToInteger["one"] = 1;
             model.DictionaryOfStringToInteger["two"] = 2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Remove("/DictionaryOfStringToInteger/two");
 
             // Act
@@ -1759,7 +1753,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class6();
             model.DictionaryOfStringToInteger["one"] = 1;
             model.DictionaryOfStringToInteger["two"] = 2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace("/DictionaryOfStringToInteger/two", 20);
 
             // Act
@@ -1798,7 +1792,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class8();
             model.DictionaryOfStringToCustomer[key1] = value1;
             model.DictionaryOfStringToCustomer[key2] = value2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
 
             // Act
@@ -1822,10 +1816,10 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class8();
             model.DictionaryOfStringToCustomer[key1] = value1;
             model.DictionaryOfStringToCustomer[key2] = value2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
             var serialized = JsonConvert.SerializeObject(patchDocument);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Class8>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Class8>>(serialized);
 
             // Act
             patchDocument.ApplyTo(model);
@@ -1848,7 +1842,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class8();
             model.DictionaryOfStringToCustomer[key1] = value1;
             model.DictionaryOfStringToCustomer[key2] = value2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace($"/DictionaryOfStringToCustomer/Foo~1Name/Name", "James");
 
             // Act
@@ -1875,7 +1869,7 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class8();
             model.DictionaryOfStringToCustomer[key1] = value1;
             model.DictionaryOfStringToCustomer[key2] = value2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
 
             // Act
@@ -1899,10 +1893,10 @@ namespace Marvin.JsonPatch.XUnitTest
             var model = new Class8();
             model.DictionaryOfStringToCustomer[key1] = value1;
             model.DictionaryOfStringToCustomer[key2] = value2;
-            var patchDocument = new JsonPatchDocumentNew();
+            var patchDocument = new JsonPatchDocument();
             patchDocument.Replace($"/DictionaryOfStringToCustomer/{key1}/Address/City", "Bellevue");
             var serialized = JsonConvert.SerializeObject(patchDocument);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Class8>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Class8>>(serialized);
 
             // Act
             patchDocument.ApplyTo(model);
@@ -1932,7 +1926,7 @@ namespace Marvin.JsonPatch.XUnitTest
             };
             model.StringList.Add("string1");
             model.StringList.Add("string2");
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/StringList/0", "string3");
 
             // Act
@@ -1952,7 +1946,7 @@ namespace Marvin.JsonPatch.XUnitTest
             };
 
             // create patch
-            var patchDoc = new JsonPatchDocumentNew<SimpleObject>();
+            var patchDoc = new JsonPatchDocument<SimpleObject>();
             patchDoc.Add<string>(o => o.StringProperty, "B");
 
             // Act
@@ -1973,7 +1967,7 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Class1();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/USStates/WA", expected);
 
             // Act
@@ -1990,10 +1984,10 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Class1();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/USStates/WA", expected);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Class1>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Class1>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2014,7 +2008,7 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Class2();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/Class1Property/USStates/WA", expected);
 
             // Act
@@ -2031,10 +2025,10 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Class2();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/Class1Property/USStates/WA", expected);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Class2>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Class2>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2050,7 +2044,7 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Dictionary<string, string>();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/WA", expected);
 
             // Act
@@ -2067,10 +2061,10 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var expected = "Washington";
             var model = new Dictionary<string, string>();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/WA", expected);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Dictionary<string, string>>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Dictionary<string, string>>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2085,10 +2079,10 @@ namespace Marvin.JsonPatch.XUnitTest
         {
             // Arrange
             var model = new List<int>() { 1, 2, 3 };
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/-", value: 4);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<List<int>>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<List<int>>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2102,7 +2096,7 @@ namespace Marvin.JsonPatch.XUnitTest
         {
             // Arrange
             var model = new List<int>() { 1, 2, 3 };
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/-", value: 4);
 
             // Act
@@ -2117,7 +2111,7 @@ namespace Marvin.JsonPatch.XUnitTest
         {
             // Arrange
             var model = new List<int>() { 1, 2, 3 };
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/0", value: 4);
 
             // Act
@@ -2132,10 +2126,10 @@ namespace Marvin.JsonPatch.XUnitTest
         {
             // Arrange
             var model = new List<int>() { 1, 2, 3 };
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/0", value: 4);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<List<int>>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<List<int>>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2155,7 +2149,7 @@ namespace Marvin.JsonPatch.XUnitTest
             // Arrange
             var model = new ListOnDictionary();
             model.NamesAndBadgeIds["James"] = new List<int>();
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/NamesAndBadgeIds/James/-", 200);
 
             // Act
@@ -2177,7 +2171,7 @@ namespace Marvin.JsonPatch.XUnitTest
             };
 
             // create patch
-            var patchDoc = new JsonPatchDocumentNew<SimpleObject>();
+            var patchDoc = new JsonPatchDocument<SimpleObject>();
             patchDoc.Add<int>(o => o.IntegerIList, 4, 0);
 
             // Act
@@ -2203,7 +2197,7 @@ namespace Marvin.JsonPatch.XUnitTest
                     IntegerIList = new List<int>() { 1, 2, 3 }
                 }
             };
-            var patchDoc = new JsonPatchDocumentNew<Class3>();
+            var patchDoc = new JsonPatchDocument<Class3>();
             patchDoc.Add<int>(o => o.SimpleObjectProperty.IntegerIList, value: 4, position: 0);
 
             // Act
@@ -2224,10 +2218,10 @@ namespace Marvin.JsonPatch.XUnitTest
                     IntegerIList = new List<int>() { 1, 2, 3 }
                 }
             };
-            var patchDoc = new JsonPatchDocumentNew<Class3>();
+            var patchDoc = new JsonPatchDocument<Class3>();
             patchDoc.Add<int>(o => o.SimpleObjectProperty.IntegerIList, value: 4, position: 0);
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<Class3>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<Class3>>(serialized);
 
             // Act
             deserialized.ApplyTo(model);
@@ -2249,7 +2243,7 @@ namespace Marvin.JsonPatch.XUnitTest
             {
                 IntegerProperty = 10
             };
-            var patchDoc = new JsonPatchDocumentNew<Class4>();
+            var patchDoc = new JsonPatchDocument<Class4>();
             patchDoc.Remove<int>(o => o.IntegerProperty);
 
             // Act
@@ -2269,11 +2263,11 @@ namespace Marvin.JsonPatch.XUnitTest
             };
 
             // create patch
-            var patchDoc = new JsonPatchDocumentNew<SimpleObject>();
+            var patchDoc = new JsonPatchDocument<SimpleObject>();
             patchDoc.Remove<string>(o => o.StringProperty);
 
             var serialized = JsonConvert.SerializeObject(patchDoc);
-            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocumentNew<SimpleObject>>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<JsonPatchDocument<SimpleObject>>(serialized);
 
             // Act
             deserialized.ApplyTo(doc);
@@ -2298,7 +2292,7 @@ namespace Marvin.JsonPatch.XUnitTest
             };
 
             // create patch
-            var patchDoc = new JsonPatchDocumentNew();
+            var patchDoc = new JsonPatchDocument();
             patchDoc.Add("/Age", 30);
 
             // Act & Assert
